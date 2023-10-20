@@ -104,7 +104,7 @@
 
 /* =================== EXPRESIONES REGULARES ===================== */
 [@]([a-zA-ZÑñ]|("_"[a-zA-ZÑñ]))([a-zA-ZÑñ]|[0-9]|"_")*                                                  return 'id';
-([\"][^\n\"]+[\"])|([\'][^\n\']+[\'])                                                                   return 'cadena';
+([\"][^\n\"]+[\"])|([\'][^\n\']+[\'])                                                                 { yytext = yytext.substr(1,yyleng-2); return 'cadena'; }
 ([0-9][0-9][0-9][0-9])([-])([0-1][0-9])([-])([0-9][0-9])                                                return 'fecha';
 [0-9]+"."[0-9]+                                                                                         return 'decimal';
 [0-9]+                                                                                                  return 'entero';

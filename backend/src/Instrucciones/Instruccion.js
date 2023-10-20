@@ -109,7 +109,7 @@ const Instruccion = {
     insert : function(_idtabla, _columnas ,_valores, _linea, _columna){
         return {
             idtabla: _idtabla,
-            calumnas: _columnas,
+            columnas: _columnas,
             valores: _valores,
             linea: _linea,
             columna: _columna,
