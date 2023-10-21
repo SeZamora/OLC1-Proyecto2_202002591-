@@ -1,1 +1,4 @@
-AS indetificacion, years, name, birth
+    create table tabla2(
+        cancion varchar,
+        inauracion date
+    );

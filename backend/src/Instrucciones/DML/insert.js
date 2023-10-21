@@ -10,7 +10,7 @@ function Insertar(instruccion, entornos, errores, simbolo, entorno ,baseDatos){
         //console.log(c.length)
         
         for (let i=0 ; i < c.length; i++){
-            //console.log("-----------Insert",i,"----------")
+            console.log("-----------Insert",i,"----------")
             var resultado = Operacion(instruccion.valores[i], entornos, errores, simbolo, baseDatos);
 
             lista[instruccion.columnas[i]] = resultado.valor;

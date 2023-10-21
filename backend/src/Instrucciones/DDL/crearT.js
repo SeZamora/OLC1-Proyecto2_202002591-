@@ -19,7 +19,7 @@ function CrearTabla(instruccion, entornos, errores, simbolo, entorno ,baseDatos)
     baseDatos.updateTable("clientes", { edad: 31 }, (row) => row.nombre === "Juan");
     */
 
-    console.log("--------Create table----------",instruccion,"------------------")
+    //console.log("--------Create table----------",instruccion,"------------------")
     //console.log("--------Id Tabla----------",instruccion.id)
     const nombreTabla = instruccion.id;
     baseDatos.createTable(nombreTabla, { });

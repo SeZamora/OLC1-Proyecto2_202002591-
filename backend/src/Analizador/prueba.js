@@ -54,19 +54,50 @@ class Database {
   }
 
   selectFromTable(tableName, columns, condition = () => true) {
-    const selectedData = this.data[tableName].data.filter(condition);
-    if (columns.length === 0 || columns[0] === '*') {
-      return selectedData;
-    } else {
-      return selectedData.map((row) => {
-        const result = {};
-        for (const column of columns) {
-          result[column] = row[column];
-        }
-        return result;
-      });
+    const table = this.data[tableName];
+    if (!table) {
+      console.log(`La tabla "${tableName}" no existe.`);
+      return;
     }
+  
+    const selectedData = table.data.filter(condition);
+  
+    if (columns.length === 0 || columns[0] === '*') {
+      columns = Object.keys(table.columns);
+    }
+  
+    // Obtener la longitud máxima de cada columna
+    const columnWidths = {};
+    for (const column of columns) {
+      columnWidths[column] = column.length;
+    }
+  
+    selectedData.forEach((row) => {
+      columns.forEach((column) => {
+        const value = row[column] === null ? 'NULL' : row[column].toString();
+        if (value.length > columnWidths[column]) {
+          columnWidths[column] = value.length;
+        }
+      });
+    });
+  
+    // Crear una función para formatear valores de columna
+    const formatColumnValue = (value, column) => {
+      return value.padEnd(columnWidths[column]);
+    };
+  
+    // Construir la representación tabular
+    const headerRow = columns.map((column) => formatColumnValue(column, column)).join(' | ');
+    const separator = '-'.repeat(headerRow.length);
+    const dataRows = selectedData.map((row) => {
+      return columns.map((column) => formatColumnValue(row[column] === null ? 'NULL' : row[column].toString(), column)).join(' | ');
+    });
+  
+    const tableData = [headerRow, separator, ...dataRows].join('\n');
+    
+    return tableData;
   }
+  
 
   updateTable(tableName, changes, condition) {
     const table = this.data[tableName];
@@ -254,11 +285,26 @@ myDatabase.insertIntoTable("users", {
   age: 31
 });
 
-const userCondition = "row.age > 27 && row.nombre === 'Jorge'"; // Corregir la condición
+const userCondition = "row.age > 27"; 
+
+const changes = {
+  nombre: "NuevoNombre",
+  age: 99
+};
+
+
+const condition = (row) => row.nombre === "John";
+
+
+myDatabase.updateTable("users", changes, condition);
+
+
+
+
 
 const conditionFunction = parseCondition(userCondition);
-
-const result = myDatabase.selectFromTable("users", ["nombre", "age"], conditionFunction);
+console.log(conditionFunction);
+const result = myDatabase.selectFromTable("users", ["*"], conditionFunction);
 console.log(result);
 
 function parseCondition(conditionString) {

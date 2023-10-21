@@ -28,7 +28,7 @@ const Instruccion = {
         return {
             izquierda: _izquierda,
             derecha: _derecha,
-            operador: _operador,
+            tipo: _operador,
             linea: _linea,
             columna: _columna
         }

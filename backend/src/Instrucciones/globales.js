@@ -7,6 +7,8 @@ const RenameColumn = require('./DDL/renameC');
 const EliminarTabla = require('./DDL/eliminarT');
 const Insertar = require('./DML/insert');
 const Selects = require('./DML/select');
+const Update = require('./DML/update');
+const Delete = require('./DML/delete');
 function globales(instrucciones, entornos, errores, simbolo, baseDatos){
     var salida = ""
 
@@ -37,6 +39,16 @@ function globales(instrucciones, entornos, errores, simbolo, baseDatos){
         }else if(instrucciones[i].tipo == "SELECTS"){
             console.log("-----------Update----------")
             var consola = Selects(instrucciones[i], entornos, errores, simbolo,"Global", baseDatos);
+        }else if(instrucciones[i].tipo == "UPDATE"){
+            console.log("-----------Update----------")
+            var consola = Update(instrucciones[i], entornos, errores, simbolo,"Global", baseDatos);
+        }else if(instrucciones[i].tipo == "TRUNCATE"){
+            console.log("-----------TRUNCATE----------")
+            baseDatos.truncateTable(instrucciones[i].idtabla);
+        }else if(instrucciones[i].tipo == "DELETE"){
+            console.log("-----------DELETE----------")
+            var consola = Delete(instrucciones[i], entornos, errores, simbolo,"Global", baseDatos);
+            
         }
     }
 }

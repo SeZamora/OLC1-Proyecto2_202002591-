@@ -54,21 +54,56 @@ class Database {
     }
   
     selectFromTable(tableName, columns, condition = () => true) {
-      const selectedData = this.data[tableName].data.filter(condition);
-      if (columns.length === 0 || columns[0] === '*') {
-        return selectedData;
-      } else {
-        return selectedData.map((row) => {
-          const result = {};
-          for (const column of columns) {
-            result[column] = row[column];
-          }
-          return result;
-        });
+      const table = this.data[tableName];
+      if (!table) {
+        console.log(`La tabla "${tableName}" no existe.`);
+        return;
       }
+    
+      const selectedData = table.data.filter(condition);
+    
+      if (columns.length === 0 || columns[0] === '*') {
+        columns = Object.keys(table.columns);
+      }
+    
+      // Obtener la longitud máxima de cada columna
+      const columnWidths = {};
+      for (const column of columns) {
+        columnWidths[column] = column.length;
+      }
+    
+      selectedData.forEach((row) => {
+        columns.forEach((column) => {
+          const value = row[column] === null ? 'NULL' : row[column].toString();
+          if (value.length > columnWidths[column]) {
+            columnWidths[column] = value.length;
+          }
+        });
+      });
+    
+      // Crear una función para formatear valores de columna
+      const formatColumnValue = (value, column) => {
+        //console.log("--------Entre Format---------\n", value.padEnd(columnWidths[column]))
+        return value.padEnd(columnWidths[column]);
+      };
+    
+      // Construir la representación tabular
+      const headerRow = columns.map((column) => formatColumnValue(column, column)).join(' | ');
+      const separator = '-'.repeat(headerRow.length);
+      const dataRows = selectedData.map((row) => {
+        return columns.map((column) => formatColumnValue(row[column] === null ? 'NULL' : row[column].toString(), column)).join(' | ');
+      });
+      //console.log("--------Header---------\n",headerRow,"\n-----------------")
+      //console.log("--------Separator---------\n",separator,"\n-----------------")
+      //console.log("--------DataRows---------\n",dataRows,"\n-----------------")
+      const tableData = [headerRow, separator, ...dataRows].join('\n');
+      
+      return tableData;
     }
+    
   
     updateTable(tableName, changes, condition) {
+      console.log("--------Entre Update---------")
       const table = this.data[tableName];
       table.data.forEach((row) => {
         if (condition(row)) {

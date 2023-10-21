@@ -36,9 +36,17 @@ function Operaciones(expresion, entorno, errores, simbolo, baseDatos){
     }else if(expresion.tipo === TIPO_OPERACION.MENORIGUAL){
         return menorigual(expresion.izquierda, expresion.derecha, entorno, errores, simbolo)
     }else if (expresion.tipo === TIPO_OPERACION.IGUAL){
-        return igualigual(expresion.izquierda, expresion.derecha, entorno, errores, simbolo)
+        return igual(expresion.izquierda, expresion.derecha, entorno, errores, simbolo)
     }else if (expresion.tipo === TIPO_OPERACION.DIFERENTE){
         return diferente(expresion.izquierda, expresion.derecha, entorno, errores, simbolo)
+    }
+
+    else if (expresion.tipo === TIPO_OPERACION.AND){
+        return and(expresion.izquierda, expresion.derecha, entorno, errores, simbolo)
+    }else if (expresion.tipo === TIPO_OPERACION.OR){
+        return or(expresion.izquierda, expresion.derecha, entorno, errores, simbolo)
+    }else if (expresion.tipo === TIPO_OPERACION.NOT){
+        return not(expresion.izquierda, expresion.derecha, entorno, errores, simbolo)
     }
 }
 
@@ -78,18 +86,18 @@ function Valores(expresion, entorno, errores, baseDatos){
     else if(expresion.tipo === TIPO_VALOR.DATE){
         enviar =  new Date(expresion.valor)
         return {
-            valor: enviar.toDateString(),
+            valor: expresion.valor,
             tipo: TIPO_DATO.DATE,
             linea: expresion.linea,
             columna: expresion.columna
         }
-    }else if (expresion.tipo === TIPO_VALOR.IDENTIFICADOR){
+    }else if (expresion.tipo === TIPO_VALOR.IDCOLUM){
         //console.log("--------Identificador---------",expresion)
-        var valor = entorno.getVariable(expresion.valor)
+        var enviar = "row."+(expresion.valor)
         //console.log("--------Valor---------",valor)
         return {
-            valor: valor.valor,
-            tipo: valor.tipo,
+            valor: enviar,
+            tipo: expresion.tipo,
             linea: expresion.linea,
             columna: expresion.columna
         }
@@ -97,4 +105,136 @@ function Valores(expresion, entorno, errores, baseDatos){
 
 }
 
+
+function mayorque(izquierda, derecha, entorno, errores, baseDatos){
+
+    let izquierda_ = Operaciones(izquierda, entorno, errores, baseDatos);
+    let derecha_ = Operaciones(derecha, entorno, errores, baseDatos);
+    if (izquierda_.tipo == TIPO_DATO.VARCHAR){
+        izquierda_.valor = "'" +izquierda_.valor +"'"
+    }
+    if (derecha_.tipo == TIPO_DATO.VARCHAR){
+        derecha_.valor = "'" +derecha_.valor +"'"
+    }
+
+    return (izquierda_.valor +" > " +derecha_.valor);
+}
+
+function menorque(izquierda, derecha, entorno, errores, baseDatos){
+
+    let izquierda_ = Operaciones(izquierda, entorno, errores, baseDatos);
+    let derecha_ = Operaciones(derecha, entorno, errores, baseDatos);
+
+    if (izquierda_.tipo == TIPO_DATO.VARCHAR){
+        izquierda_.valor = "'" +izquierda_.valor +"'"
+    }
+    if (derecha_.tipo == TIPO_DATO.VARCHAR){
+        derecha_.valor = "'" +derecha_.valor +"'"
+    }
+
+    return (izquierda_.valor +" < " +derecha_.valor);
+}
+
+function mayorigual(izquierda, derecha, entorno, errores, baseDatos){
+    
+    let izquierda_ = Operaciones(izquierda, entorno, errores, baseDatos);
+    let derecha_ = Operaciones(derecha, entorno, errores, baseDatos);
+
+    if (izquierda_.tipo == TIPO_DATO.VARCHAR){
+        izquierda_.valor = "'" +izquierda_.valor +"'"
+    }
+    if (derecha_.tipo == TIPO_DATO.VARCHAR){
+        derecha_.valor = "'" +derecha_.valor +"'"
+    }
+
+    return (izquierda_.valor +" >= " +derecha_.valor);    
+}
+
+function menorigual(izquierda, derecha, entorno, errores, baseDatos){
+
+    let izquierda_ = Operaciones(izquierda, entorno, errores, baseDatos);
+    let derecha_ = Operaciones(derecha, entorno, errores, baseDatos);
+
+    if (izquierda_.tipo == TIPO_DATO.VARCHAR){
+        izquierda_.valor = "'" +izquierda_.valor +"'"
+    }
+    if (derecha_.tipo == TIPO_DATO.VARCHAR){
+        derecha_.valor = "'" +derecha_.valor +"'"
+    }
+
+    return (izquierda_.valor +" <= " +derecha_.valor);    
+}
+
+function igual(izquierda, derecha, entorno, errores, baseDatos){
+    
+    let izquierda_ = Operaciones(izquierda, entorno, errores, baseDatos);
+    let derecha_ = Operaciones(derecha, entorno, errores, baseDatos);
+
+    if (izquierda_.tipo == TIPO_DATO.VARCHAR){
+        izquierda_.valor = "'" +izquierda_.valor +"'"
+    }
+    if (derecha_.tipo == TIPO_DATO.VARCHAR){
+        derecha_.valor = "'" +derecha_.valor +"'"
+    }
+
+    return (izquierda_.valor +" === " +derecha_.valor);    
+}
+
+function diferente(izquierda, derecha, entorno, errores, baseDatos){
+    
+    let izquierda_ = Operaciones(izquierda, entorno, errores, baseDatos);
+    let derecha_ = Operaciones(derecha, entorno, errores, baseDatos);
+
+    if (izquierda_.tipo == TIPO_DATO.VARCHAR){
+        izquierda_.valor = "'" +izquierda_.valor +"'"
+    }
+    if (derecha_.tipo == TIPO_DATO.VARCHAR){
+        derecha_.valor = "'" +derecha_.valor +"'"
+    }
+
+    return (izquierda_.valor +" !== " +derecha_.valor);    
+}
+
+function and(izquierda, derecha, entorno, errores, baseDatos){
+
+    let izquierda_ = Operaciones(izquierda, entorno, errores, baseDatos);
+    let derecha_ = Operaciones(derecha, entorno, errores, baseDatos);
+
+    if (izquierda_.tipo == TIPO_DATO.VARCHAR){
+        izquierda_.valor = "'" +izquierda_.valor +"'"
+    }
+    if (derecha_.tipo == TIPO_DATO.VARCHAR){
+        derecha_.valor = "'" +derecha_.valor +"'"
+    }
+
+    return (izquierda_ +" && " +derecha_);    
+}
+
+function or(izquierda, derecha, entorno, errores, baseDatos){
+        
+    let izquierda_ = Operaciones(izquierda, entorno, errores, baseDatos);
+    let derecha_ = Operaciones(derecha, entorno, errores, baseDatos);
+
+    if (izquierda_.tipo == TIPO_DATO.VARCHAR){
+        izquierda_.valor = "'" +izquierda_.valor +"'"
+    }
+    if (derecha_.tipo == TIPO_DATO.VARCHAR){
+        derecha_.valor = "'" +derecha_.valor +"'"
+    }
+
+    return (izquierda_ +" || " +derecha_);    
+}
+
+function not(izquierda, derecha, entorno, errores, baseDatos){         
+   let derecha_ = Operaciones(derecha, entorno, errores, baseDatos);
+
+   if (izquierda_.tipo == TIPO_DATO.VARCHAR){
+        izquierda_.valor = "'" +izquierda_.valor +"'"
+    }
+    if (derecha_.tipo == TIPO_DATO.VARCHAR){
+        derecha_.valor = "'" +derecha_.valor +"'"
+    }
+
+   return ("!" +derecha_);    
+}
 module.exports = Operaciones;
