@@ -266,7 +266,8 @@ ASIGNARV : tset EXP igual EXP puntocoma {$$ =new Nodo("ASIGNAR V", @1.first_line
                                         $$.hijos.push($4)}
 ;
 
-CREATETABLE : tcreate ttable idt parena LCOLUMNAS parenc puntocoma {$$ =new Nodo("CREATE TABLE", @1.first_line, @1.first_column,'"#86bafd"');}
+CREATETABLE : tcreate ttable idt parena LIDS parenc puntocoma {$$ =new Nodo("CREATE TABLE", @1.first_line, @1.first_column,'"#86bafd"');
+                                                                $$.hijos.push($5)}
 ;
 LCOLUMNAS : LCOLUMNAS COLUMNAS {$$ = $1; 
                                 $1.push($2);}
@@ -470,7 +471,7 @@ INSTRUCCION : DVARIABLES
 ;
 
 IF : tif EXP tthen INSTRUCCIONES tend tif puntocoma                     {$$ = new Nodo("IF", @1.first_line, @1.first_column,'"#86bafd"');
-                                                                            $$.hijos.push($2)}
+                                                                            $$.hijos.push($4)}
 |   tif EXP tthen INSTRUCCIONES telse INSTRUCCIONES tend tif puntocoma  {$$ = new Nodo("IF", @1.first_line, @1.first_column,'"#86bafd"');
                                                                             $$.hijos.push($4)
                                                                             $$.hijos.push($6)}

@@ -9,10 +9,12 @@ const Insertar = require('./DML/insert');
 const Selects = require('./DML/select');
 const Update = require('./DML/update');
 const Delete = require('./DML/delete');
+const BeginEnd = require('./BeginEnd');
 function globales(instrucciones, entornos, errores, simbolo, baseDatos){
     var salida = ""
-
+    //console.log("-----------Instruccion----------",instrucciones)
     for( let i = 0; i < instrucciones.length; i++) {
+       
         if (instrucciones[i].tipo == "CREATET"){
             //console.log("-----------Global Create table----------")
             var consola = CrearTabla(instrucciones[i], entornos, errores, simbolo,"Global", baseDatos);
@@ -39,6 +41,7 @@ function globales(instrucciones, entornos, errores, simbolo, baseDatos){
         }else if(instrucciones[i].tipo == "SELECTS"){
             console.log("-----------Update----------")
             var consola = Selects(instrucciones[i], entornos, errores, simbolo,"Global", baseDatos);
+            salida = salida + consola + "\n";
         }else if(instrucciones[i].tipo == "UPDATE"){
             console.log("-----------Update----------")
             var consola = Update(instrucciones[i], entornos, errores, simbolo,"Global", baseDatos);
@@ -49,7 +52,14 @@ function globales(instrucciones, entornos, errores, simbolo, baseDatos){
             console.log("-----------DELETE----------")
             var consola = Delete(instrucciones[i], entornos, errores, simbolo,"Global", baseDatos);
             
+        }else if(instrucciones[i].tipo == "BEGINEND"){
+            console.log("-----------BeginEnd----------")
+            var consola = BeginEnd(instrucciones[i], entornos, errores, simbolo,"Global", baseDatos);
+            salida = salida + consola;
         }
+
+      
     }
+    return salida;
 }
 module.exports = globales;

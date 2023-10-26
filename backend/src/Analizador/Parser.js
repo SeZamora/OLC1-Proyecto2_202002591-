@@ -120,8 +120,8 @@ case 13: case 86:
                 lista.add("Sintáctico", "Token Inesperado " + $$[$0-1] , _$[$0-1].first_line, _$[$0-1].first_column);
         
 break;
-case 14: case 39: case 41: case 51: case 57:
-this.$ = $$[$0-1];
+case 14:
+this.$ = INSTRUCCION.declarev($$[$0-1], this._$.first_line, this._$.first_column);
 break;
 case 15:
  
@@ -198,6 +198,9 @@ case 37:
                             $$[$0-1].push($$[$0]);
                             this.$ = $$[$0-1]; 
                             
+break;
+case 39: case 41: case 51: case 57:
+this.$ = $$[$0-1];
 break;
 case 40: case 42: case 52: case 53: case 58: case 140: case 141: case 142: case 143: case 144: case 145: case 146:
 this.$ = $$[$0];

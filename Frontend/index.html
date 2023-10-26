@@ -10,6 +10,9 @@
         <link rel="stylesheet" href="../codemirror//lib//codemirror.css">
         <link rel="stylesheet" href="../codemirror//theme//darcula.css">
         <script src="./codemirror/mode/clike/clike.js"></script>
+        
+
+
         <title>Programa</title>
     </head>
     <body>
@@ -25,6 +28,7 @@
               <button onclick="quitar();" title="QuitarPestana" id="btn5" class="btnp">Quitar Pestana</button>
               <button onclick="analizar()" title="Analizar" id="btn5" class="btnp">Analizar</button>
               <button onclick="copiar()" title="copiar" id="btn5" class="btnp">copiar</button>
+              <button onclick="AVL()" title="arbol" id="btn5" class="btnp">Arbol AST</button>
 
           </div>
 
@@ -38,6 +42,15 @@
               <div id="contenidopestanas">
               </div>
           </body>
+
       </div>
+
+      <div id="graph-container"></div>
+
+
+      <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://github.com/mdaines/viz.js/viz.js"></script>
+
+     
   </body>
 </html>

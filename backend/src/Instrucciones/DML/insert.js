@@ -1,9 +1,9 @@
 
 
-const Operacion = require("../operaciones");
+const Operacion = require("../../Operar/operacionP");
 
 function Insertar(instruccion, entornos, errores, simbolo, entorno ,baseDatos){
-    if (entorno == "Global"){
+
         const lista = {};
         //console.log(instruccion.columnas)
         c = instruccion.columnas
@@ -18,7 +18,6 @@ function Insertar(instruccion, entornos, errores, simbolo, entorno ,baseDatos){
         }
         baseDatos.insertIntoTable(instruccion.idtabla, lista);
         
-    }
 }
 
 module.exports = Insertar;

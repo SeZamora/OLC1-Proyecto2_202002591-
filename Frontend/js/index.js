@@ -1,3 +1,5 @@
+
+
 var contador=1;
 function get_cont(){
     return contador++;
@@ -204,22 +206,24 @@ function copiar() {
 
 
 }
-
-
-
+let TreeAst;
 function analizar(){
+  
 
-    
     var ta = document.getElementById(get_vent());
     var contenido = ta.value;
-    var url = "http://localhost:3000/Analizar/";
-
+    var url = "http://localhost:9000/Analizar/";
 
     $.post(url,{text1:contenido}, function(data,status){
         
         if (status.toString() == "success") {
 
-            console.log("entre");
+
+
+            TreeAst = data.ast;
+            console.log(data.message);
+
+
 
         }else{
             alert("Error estado de conexion: "+ status);
@@ -227,6 +231,19 @@ function analizar(){
     
     },"json");
 
+    
+}
+
+
+
+function AVL(){
+    
+    let url = 'https://quickchart.io/graphviz?graph=';
+    let body = `digraph G {\n ${TreeAst} \n }`
+    console.log(body);
+    $("#graph").attr("src", url + body);
+
 
     
+
 }

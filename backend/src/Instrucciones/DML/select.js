@@ -13,15 +13,18 @@ function SelectS (instruccion, entornos, errores, simbolo, entorno ,baseDatos){
                 // console.log(condicion)
                 var resultado = baseDatos.selectFromTable(instruccion.idtabla, instruccion.columnas, condicion);
                 console.log(resultado)
+                return resultado
             }else if(instruccion.where === null){
                 //console.log("-----------Select Sin Where----------\n",instruccion,"\n-----------------")
                 var resultado = baseDatos.selectFromTable(instruccion.idtabla, instruccion.columnas);
                 console.log(resultado)
+                return resultado
             }
         }else if(instruccion.columnas[0] === "*" && instruccion.as !== null && instruccion.where === null){
             //console.log("-----------Select AS----------\n",instruccion,"\n-----------------")
             var resultado = baseDatos.getTableAs(instruccion.idtabla, instruccion.as);
             console.log(resultado)
+            return resultado
         }
     }
 }

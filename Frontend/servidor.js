@@ -6,7 +6,7 @@ const PORT = 8000;
 
 const server = http.createServer((req, res) => {
   // Serve static files
-  if (req.url.startsWith('/css/') || req.url.startsWith('/codemirror/') || req.url.startsWith('/js/')) {
+  if (req.url.startsWith('/css/') || req.url.startsWith('/codemirror/') || req.url.startsWith('/js/') ) {
     const filePath = path.join(__dirname, req.url);
     const stream = fs.createReadStream(filePath);
     stream.pipe(res);

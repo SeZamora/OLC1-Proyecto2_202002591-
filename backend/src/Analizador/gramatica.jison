@@ -157,8 +157,7 @@
 
 %% 
 
-INICIO
-    : SENTENCIAS EOF
+INICIO: SENTENCIAS EOF
     {
          //Objeto de Salida
             var salida = {
@@ -228,7 +227,7 @@ SENTENCIA: CREATETABLE
         }
 ;
 
-DVARIABLES : tdeclare LIDS puntocoma {$$ = $2;}
+DVARIABLES : tdeclare LIDS puntocoma {$$ = INSTRUCCION.declarev($2, this._$.first_line, this._$.first_column);}
 ;
 LIDS:   LIDS IDS    { 
                         $1.push($2); 

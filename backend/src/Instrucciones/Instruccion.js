@@ -16,6 +16,14 @@ const Instruccion = {
             tipo: TIPO_INSTRUCCION.DECLARACIONV
         }
     },
+    declarev: function(_variables, _linea, _columna){
+        return {
+            variables: _variables,                  //Identificador de las variables 
+            linea: _linea,
+            columna: _columna,
+            tipo: TIPO_INSTRUCCION.DECLAREV
+        }
+    },
     valor: function(_valor, _tipo, _linea, _columna){
         return{
             valor: _valor,
