@@ -149,33 +149,15 @@ select * from Ventas;
 DELETE FROM Productos WHERE ProductoID = 2;
 select * from Productos;
 
-BEGIN
-    DECLARE @valor1 INT DEFAULT 55;
-    DECLARE @valor2 INT DEFAULT 30;
-
-    select @valor1;
-    select @valor2 AS Valor2;
-
-    DECLARE @nota INT;
-    SET @nota = 99;
-
-    CASE
-        WHEN @nota > 85 THEN "Excelente"
-        WHEN @nota >= 61 AND @nota <= 85 THEN "Aprobado"
-        ELSE "No Aprobado"
-    END;
-
-
-    CASE @nota
-        WHEN 100 THEN "Sobresaliente"
-        WHEN 99 THEN "Muy bueno"
-        WHEN 98 THEN "Bueno"
-        ELSE "no es 70"
-    END;
-END;
+SELECT LOWER("HOLA MUNDO"); -- hola mundo
+SELECT UPPER("hola mundo"); -- HOLA MUNDO
+SELECT ROUND(125.678980, 3); -- 125.679
+SELECT LEN("ganare el curso de compiladores 1"); -- 30 caracteres
+SELECT TRUNCATE(8.965, 1); -- 8.9
+SELECT TYPEOF(245.5); -- DOUBLE 
 
 
 
 `;
 
-prueba(entrada);
+module.exports = prueba;
