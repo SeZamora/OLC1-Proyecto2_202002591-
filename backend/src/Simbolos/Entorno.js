@@ -54,6 +54,9 @@ class Entorno {
         return false
     }
 
+    setRetorno(tipo){
+        this.retorno = tipo 
+    }
 
 }
 

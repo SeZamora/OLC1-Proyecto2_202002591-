@@ -30,10 +30,10 @@ function declararVariable(instruccion, entornos, errores, simbolo,nameEntorno, b
         }
        
         const nuevoS = new Simbolo(todo.id, valor, todo.tipodato, todo.linea, todo.columna)
-        console.log("----------Nuevo simbolo---------\n", nuevoS)
+        //console.log("----------Nuevo simbolo---------\n", nuevoS)
         entornos.addSimbolo(nuevoS.id, nuevoS)
         simbolo.add(todo.id, valor, todo.tipodato, nameEntorno, todo.linea, todo.columna)
-        console.log("---------entornos--------\n", entornos)
+        //console.log("---------entornos--------\n", entornos)
         //console.log("---------simbolo--------\n", simbolo)
 
         

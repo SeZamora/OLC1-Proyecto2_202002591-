@@ -1,7 +1,7 @@
 const Operacion = require("../../Operar/operacionP");
 
 function Print(instruccion, entornos, errores, simbolo,nameEntorno, baseDatos){
-    console.log("----Print----\n",instruccion)
+    //console.log("----Print----\n",instruccion)
 
     let valor = instruccion.valor;
 

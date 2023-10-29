@@ -23,6 +23,7 @@ class Nodo{
         for (let i = 0; i < this.hijos.length; i++){
  
             salida += `n${this.ID} -> n${this.hijos[i].ID} ; \n`
+            //console.log(this.hijos[i])
             salida += this.hijos[i].graficar();
         }
         return salida

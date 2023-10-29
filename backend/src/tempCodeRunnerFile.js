@@ -1,1 +1,2 @@
-hola
+
+    SET @nota = 70;

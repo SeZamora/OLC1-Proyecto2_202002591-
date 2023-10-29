@@ -49,6 +49,20 @@ function OperacionP(expresion, entorno, errores, simbolo, baseDatos){
     }else if (expresion.tipo === TIPO_OPERACION.NOT){
         return not(expresion.izquierda, expresion.derecha, entorno, errores, simbolo)
     }
+
+    else if (expresion.tipo === TIPO_INSTRUCCION.LOWER){
+        return lower(expresion, entorno, errores, simbolo)
+    }else if (expresion.tipo === TIPO_INSTRUCCION.UPPER){
+        return upper(expresion, entorno, errores, simbolo)
+    }else if (expresion.tipo === TIPO_INSTRUCCION.LEN){
+        return len(expresion, entorno, errores, simbolo)
+    }else if (expresion.tipo === TIPO_INSTRUCCION.ROUND){
+        return round(expresion, entorno, errores, simbolo)
+    }else if (expresion.tipo === TIPO_INSTRUCCION.TRUNCATES){
+        return trunc(expresion, entorno, errores, simbolo)
+    }else if (expresion.tipo === TIPO_INSTRUCCION.TYPEOF){
+        return type(expresion, entorno, errores, simbolo)
+    }
 }
 
 function Valores(expresion, entorno, errores, baseDatos){
@@ -563,5 +577,80 @@ function unario (izquierda, derecha, entorno, errores, simbolos){
         }
     }
 }
+
+function lower (expresion, entorno, errores, simbolos){
+    let valor = OperacionP(expresion.valor, entorno, errores, simbolos);
+    let resultado = valor.valor.toLowerCase()
+    return {
+        valor: resultado,
+        tipo: TIPO_DATO.VARCHAR,
+        linea: expresion.linea,
+        columna: expresion.columna
+    }
+}
+
+function upper (expresion, entorno, errores, simbolos){
+  
+    let valor = OperacionP(expresion.valor, entorno, errores, simbolos);
+    let resultado = valor.valor.toUpperCase()
+    return {
+        valor: resultado,
+        tipo: TIPO_DATO.VARCHAR,
+        linea: expresion.linea,
+        columna: expresion.columna
+    }
+}
+
+function round (expresion, entorno, errores, simbolos){
+    
+    let decimal = OperacionP(expresion.decimal, entorno, errores, simbolos);
+    let numero = OperacionP(expresion.entero, entorno, errores, simbolos);
+    
+    const factor = Math.pow(10, numero.valor);
+    let resultado = (Math.round(decimal.valor * factor) / factor).toFixed(numero.valor);
+    return {
+        valor: resultado,
+        tipo: TIPO_DATO.DOUBLE,
+        linea: expresion.linea,
+        columna: expresion.columna
+    }
+}
+
+function len (expresion, entorno, errores, simbolos){
+    let valor = OperacionP(expresion.valor, entorno, errores, simbolos);
+    let resultado = valor.valor.length
+    return {
+        valor: resultado,
+        tipo: TIPO_DATO.INT,
+        linea: expresion.linea,
+        columna: expresion.columna
+    }
+}
+
+function trunc(expresion, entorno, errores, simbolos){
+    let decimal = OperacionP(expresion.decimal, entorno, errores, simbolos);
+    let numero = OperacionP(expresion.entero, entorno, errores, simbolos);
+    
+    const factor = Math.pow(10, numero.valor);
+    let resultado = Math.trunc(decimal.valor * factor) / factor;
+    return {
+        valor: resultado,
+        tipo: TIPO_DATO.DOUBLE,
+        linea: expresion.linea,
+        columna: expresion.columna
+    }
+}
+
+function type(expresion, entorno, errores, simbolos){
+    let valor = OperacionP(expresion.valor, entorno, errores, simbolos);
+    let resultado = valor.tipo
+    return {
+        valor: resultado,
+        tipo: TIPO_DATO.VARCHAR,
+        linea: expresion.linea,
+        columna: expresion.columna
+    }
+}
+
 
 module.exports = OperacionP;

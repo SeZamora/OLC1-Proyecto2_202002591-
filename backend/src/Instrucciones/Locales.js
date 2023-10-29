@@ -14,6 +14,9 @@ const BeginEnd = require('./BeginEnd');
 const DeclararVariable = require('./Instru/DeclararVariable');
 const AsignarVariable = require('./Instru/AsignarVariable');
 const Print = require('./Instru/Print');
+const Ifs = require('./Instru/Ifs');
+const SelectV = require('./DML/SelectV');
+const CASO = require('./Instru/caso');
 
 function Locales(instrucciones, entornos, errores, simbolo, baseDatos){
     var salida = ""
@@ -46,7 +49,7 @@ function Locales(instrucciones, entornos, errores, simbolo, baseDatos){
         }else if(instrucciones[i].tipo == "SELECTS"){
             console.log("-----------Update----------")
             var consola = Selects(instrucciones[i], entornos, errores, simbolo,entornos.nombre, baseDatos);
-            salida = salida + consola + "\n";
+            salida = salida + consola + "\n \n";
         }else if(instrucciones[i].tipo == "UPDATE"){
             console.log("-----------Update----------")
             var consola = Update(instrucciones[i], entornos, errores, simbolo,entornos.nombre, baseDatos);
@@ -70,8 +73,25 @@ function Locales(instrucciones, entornos, errores, simbolo, baseDatos){
             var consola = AsignarVariable(instrucciones[i], entornos, errores, simbolo,entornos.nombre, baseDatos);
         }else if(instrucciones[i].tipo == "PRINT"){
             console.log("-----------Print----------")
-           consola = Print(instrucciones[i], entornos, errores, simbolo,entornos.nombre, baseDatos);
+            consola = Print(instrucciones[i], entornos, errores, simbolo,entornos.nombre, baseDatos);
+            salida = salida + consola + "\n \n";
+        }else if(instrucciones[i].tipo == "SI"){
+            console.log("-----------If----------")
+            var consola = Ifs(instrucciones[i], entornos, errores, simbolo,entornos.nombre, baseDatos);
             salida = salida + consola + "\n";
+            
+        }else if (instrucciones[i].tipo == "SELECTV"){
+            console.log("-----------SelectV----------")
+            var consola = SelectV(instrucciones[i], entornos, errores, simbolo,entornos.nombre, baseDatos);
+            salida = salida + consola + "\n \n";
+        }else if (instrucciones[i].tipo == "CASO"){
+            console.log("-----------CASE----------")
+            var consola = CASO(instrucciones[i], entornos, errores, simbolo,entornos.nombre, baseDatos);
+            salida = salida + consola + "\n \n";
+        }else if (instrucciones[i].tipo == "PARA"){
+            console.log("-----------WHEN----------")
+            var consola = CASO(instrucciones[i], entornos, errores, simbolo,entornos.nombre, baseDatos);
+            //salida = salida + consola + "\n \n";
         }
     }
 

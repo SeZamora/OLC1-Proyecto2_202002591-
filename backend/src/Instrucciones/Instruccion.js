@@ -3,14 +3,13 @@
 const TIPO_INSTRUCCION = require("../Tipos/TipoInstruccion")
 
 
-                                    //? Tipo es el tipo de instruccion
-
+                      
 const Instruccion = {
     declararv: function(_tipodato, id, _valor, _linea, _columna){
         return {
-            tipodato: _tipodato,                //Tipado de las variables
-            id: id,                        //Identificador de las variables 
-            valor: _valor,                      //Valor a asignar a las variables
+            tipodato: _tipodato,           
+            id: id,                   
+            valor: _valor,                    
             linea: _linea,
             columna: _columna,
             tipo: TIPO_INSTRUCCION.DECLARACIONV
@@ -18,7 +17,7 @@ const Instruccion = {
     },
     declarev: function(_variables, _linea, _columna){
         return {
-            variables: _variables,                  //Identificador de las variables 
+            variables: _variables,            
             linea: _linea,
             columna: _columna,
             tipo: TIPO_INSTRUCCION.DECLAREV
@@ -199,6 +198,7 @@ const Instruccion = {
             tipo: TIPO_INSTRUCCION.CASO
         }
     },
+
     cuando: function(_condicion, _instrucciones, _linea, _columna){
         return {
             condicion: _condicion,
@@ -354,6 +354,15 @@ const Instruccion = {
             linea: _linea,
             columna: _columna,
             tipo: TIPO_INSTRUCCION.LLAMADAS
+        }
+    },
+    cast : function(_valor, _tipodato, _linea, _columna){
+        return {
+            valor: _valor,
+            tipodato: _tipodato,
+            linea: _linea,
+            columna: _columna,
+            tipo: TIPO_INSTRUCCION.CAST
         }
     }
 

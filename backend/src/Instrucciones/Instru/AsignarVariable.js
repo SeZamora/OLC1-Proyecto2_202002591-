@@ -14,7 +14,7 @@ function AsignarV(instruccion, entornos, errores, simbolo,nameEntorno, baseDatos
     entornos.actualizar(id , variable)
     simbolo.update(id, temp.entorno, valor.valor)
 
-    console.log("----Entornos----\n",entornos)
+    //console.log("----Entornos----\n",entornos)
 }
 
 module.exports = AsignarV;

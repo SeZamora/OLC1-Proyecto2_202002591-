@@ -16,7 +16,7 @@ function prueba(entrada)    {
 
     let raiz = parse.parse(entrada);
 
-    /*
+        console.log("-----Arbol Error----------",raiz.lerrores,"---------")
 
     let grafica = `digraph G {
         graph [ratio=.548];
@@ -49,7 +49,7 @@ function prueba(entrada)    {
        
     });
 
-    */
+    
     //console.log("-----Arbol Error----------",arbol.lerrores,"---------")
   
     a = arbol.instrucciones;
@@ -73,64 +73,105 @@ function prueba(entrada)    {
 }
 
 var entrada = `
-   
-create table tabla1(
-    id int,
-    edad Double,
-    nombre Varchar,
-    cumple date,
-    genero Varchar
+-- Crear tablas
+CREATE TABLE Productos (
+    ProductoID INT,
+    Nombre VARCHAR,
+    Precio DOUBLE,
+    Stock INT
 );
 
-create table tabla2(
-    cancion varchar,
-    inauracion date
+CREATE TABLE Ventas (
+    VentaID INT,
+    ProductoID INT,
+    Cantidad INT,
+    FechaVenta DATE,
+    Total DOUBLE,
+    MetodoPago VARCHAR,
+    EstadoVenta VARCHAR
+);
+CREATE TABLE Productos2 (
+    ProductoID INT,
+    Nombre VARCHAR,
+    Precio DOUBLE,
+    Stock INT
 );
 
+CREATE TABLE Ventas2 (
+    VentaID INT,
+    ProductoID INT,
+    Cantidad INT,
+    FechaVenta DATE,
+    Total DOUBLE,
+    MetodoPago VARCHAR,
+    EstadoVenta VARCHAR
+);
+-- Alterar tabla (Modificar columna Precio)
+ALTER TABLE Productos
+RENAME COLUMN Precio TO PrecioUnitario;
+
+-- Alterar tabla (Agregar columna Categoria)
+ALTER TABLE Productos
+ADD Categoria VARCHAR;
+
+-- Drop tablas avanzadas
+DROP TABLE Ventas2;
+DROP TABLE Productos2;
 
 
+-- Insertar datos
+INSERT INTO Productos (ProductoID, Nombre, PrecioUnitario, Stock, Categoria)
+VALUES (1, "Producto X", 1000.00, 50, "Electrónicos");
+INSERT INTO Productos (ProductoID, Nombre, PrecioUnitario, Stock, Categoria)
+VALUES (2, "Producto Y", 750.50, 30, "Ropa");
 
-INSERT INTO tabla1 (id, edad, nombre, cumple, genero)
-VALUES (1, 45, "Juan", 2019-10-02, "hombre");
+INSERT INTO Ventas (VentaID, ProductoID, Cantidad, FechaVenta, Total, MetodoPago, EstadoVenta)
+VALUES (501, 1, 10, "2023-10-17", 10000.00, "Tarjeta", "Completado");
+INSERT INTO Ventas (VentaID, ProductoID, Cantidad, FechaVenta, Total, MetodoPago, EstadoVenta)
+VALUES (502, 2, 5, "2023-10-16", 3752.50, "Efectivo", "Pendiente");
 
-INSERT INTO tabla1 (id, edad, nombre, cumple, genero)
-VALUES (2, 23, "Luis",2020-09-21, "hombre");
+-- Seleccionar datos con WHERE (Operaciones lógicas y relacionales)
+SELECT ProductoID, Nombre, PrecioUnitario, Categoria
+FROM Productos
+WHERE Stock > 0 AND PrecioUnitario >= 800.00 AND PrecioUnitario <= 1200.00;
 
-INSERT INTO tabla1 (id, edad, nombre, cumple, genero)
-VALUES (3, 25, "Luisa",2020-07-15, "mujer");
+SELECT VentaID, FechaVenta, Total, EstadoVenta
+FROM Ventas
+WHERE (MetodoPago = "Tarjeta" OR MetodoPago = "Efectivo") AND EstadoVenta = "Completado";
 
-INSERT INTO tabla1 (id, edad, nombre, cumple, genero)
-VALUES (4, 15, "Ana",2020-05-14, "mujer");
+Select * from Productos;
 
-INSERT INTO tabla1 (id, edad, nombre, cumple, genero)
-VALUES (5, 11, "Zamora",2020-01-01, "mujer");
+-- Truncar tabla
+TRUNCATE TABLE Ventas;
+select * from Ventas;
 
-UPDATE tabla1
-SET edad = 99,
-    cumple = 2011-10-29
-WHERE nombre = "Zamora";
-
---Select * from tabla1 where edad >= 25;
-
---TRUNCATE TABLE tabla1;
-
-Select * from tabla1;
-
-DELETE FROM tabla1
-WHERE genero = "hombre";
-
-Select * from tabla1;
+-- Borrar datos
+DELETE FROM Productos WHERE ProductoID = 2;
+select * from Productos;
 
 BEGIN
-    declare @boolean1 boolean;
+    DECLARE @valor1 INT DEFAULT 55;
+    DECLARE @valor2 INT DEFAULT 30;
 
-    set @boolean1 = "hola" != "hjola";
+    select @valor1;
+    select @valor2 AS Valor2;
 
-    declare @String varchar;
+    DECLARE @nota INT;
+    SET @nota = 99;
 
-    set @String = "hola";
+    CASE
+        WHEN @nota > 85 THEN "Excelente"
+        WHEN @nota >= 61 AND @nota <= 85 THEN "Aprobado"
+        ELSE "No Aprobado"
+    END;
 
-    Print(@boolean1);
+
+    CASE @nota
+        WHEN 100 THEN "Sobresaliente"
+        WHEN 99 THEN "Muy bueno"
+        WHEN 98 THEN "Bueno"
+        ELSE "no es 70"
+    END;
 END;
 
 

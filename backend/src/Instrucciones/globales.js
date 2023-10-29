@@ -10,6 +10,7 @@ const Selects = require('./DML/select');
 const Update = require('./DML/update');
 const Delete = require('./DML/delete');
 const BeginEnd = require('./BeginEnd');
+const SelectV = require('./DML/SelectV');
 function globales(instrucciones, entornos, errores, simbolo, baseDatos){
     var salida = ""
     //console.log("-----------Instruccion----------",instrucciones)
@@ -41,7 +42,7 @@ function globales(instrucciones, entornos, errores, simbolo, baseDatos){
         }else if(instrucciones[i].tipo == "SELECTS"){
             console.log("-----------Update----------")
             var consola = Selects(instrucciones[i], entornos, errores, simbolo,"Global", baseDatos);
-            salida = salida + consola + "\n";
+            salida = salida + consola + "\n \n";
         }else if(instrucciones[i].tipo == "UPDATE"){
             console.log("-----------Update----------")
             var consola = Update(instrucciones[i], entornos, errores, simbolo,"Global", baseDatos);
@@ -56,6 +57,10 @@ function globales(instrucciones, entornos, errores, simbolo, baseDatos){
             console.log("-----------BeginEnd----------")
             var consola = BeginEnd(instrucciones[i], entornos, errores, simbolo,"Global", baseDatos);
             salida = salida + consola;
+        }else if (instrucciones[i].tipo == "SELECTV"){
+            console.log("-----------SelectV----------")
+            var consola = SelectV(instrucciones[i], entornos, errores, simbolo,"Global", baseDatos);
+            salida = salida + consola + "\n \n";
         }
 
       

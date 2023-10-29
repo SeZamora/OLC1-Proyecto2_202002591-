@@ -287,7 +287,7 @@ SELECT : tselect LID tfrom idt puntocoma                {$$ = INSTRUCCION.select
 | tselect LID tas LID tfrom idt puntocoma               {$$ = INSTRUCCION.selects($2,$4, $6, null, this._$.first_line, this._$.first_column );}
 | tselect LID tfrom idt twhere EXP puntocoma            {$$ = INSTRUCCION.selects($2,null, $4, $6, this._$.first_line, this._$.first_column );}
 | tselect LID tas LID tfrom idt twhere EXP puntocoma    {$$ = INSTRUCCION.selects($2, $4, $6, $8, this._$.first_line, this._$.first_column );}
-| tselect EXP puntocoma                                 {$$ = INSTRUCCION.selectva($2, $2, this._$.first_line, this._$.first_column );}
+| tselect EXP puntocoma                                 {$$ = INSTRUCCION.selectva($2, null, this._$.first_line, this._$.first_column );}
 | tselect EXP tas idt puntocoma                         {$$ = INSTRUCCION.selectva($2, $4, this._$.first_line, this._$.first_column );}
 ;
 LID : LID SCOL {
@@ -427,7 +427,10 @@ IF : tif EXP tthen INSTRUCCIONES tend tif puntocoma                     {$$ = IN
 |   tif EXP tthen INSTRUCCIONES telse INSTRUCCIONES tend tif puntocoma  {$$ = INSTRUCCION.si($2, $4, $6, this._$.first_line, this._$.first_column );}
 ;
 
-CASE: tcase idt INSTRUCASE telse EXP tend puntocoma {$$ = INSTRUCCION.caso($2, $3, $5, this._$.first_line, this._$.first_column );}
+CAST : tcast parena EXP tas TIPO parenc {$$ = INSTRUCCION.cast($3, $5, this._$.first_line, this._$.first_column );}
+;
+
+CASE: tcase EXP INSTRUCASE telse EXP tend puntocoma {$$ = INSTRUCCION.caso($2, $3, $5, this._$.first_line, this._$.first_column );}
 |  tcase INSTRUCASE telse EXP tend puntocoma        {$$ = INSTRUCCION.caso(null, $2, $4, this._$.first_line, this._$.first_column );}
 ;
 INSTRUCASE : INSTRUCASE INTCASE {
@@ -530,4 +533,5 @@ EXP :   EXP suma EXP            {$$ = INSTRUCCION.operacion($1,$3, TIPO_OPERACIO
     |   TRUNCATES               {$$ = $1;}
     |   TYPEOF                 {$$ = $1;}
     |   LLAMADAS               {$$ = $1;}
+    |  CAST                   {$$ = $1;}        
 ;

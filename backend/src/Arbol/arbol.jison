@@ -459,11 +459,6 @@ INSTRUCCION : DVARIABLES
             $$ =new Nodo("INSTRUCCION", @1.first_line, @1.first_column,'"#86bafd"');
              $$.hijos.push($1)
         }
-        | BEGINEND 
-        {
-            $$ =new Nodo("INSTRUCCION", @1.first_line, @1.first_column,'"#86bafd"');
-             $$.hijos.push($1)
-        }
         | error puntocoma
         {
                 lista.add("Sintáctico", "Token Inesperado " + $1 , @1.first_line, @1.first_column);
@@ -477,12 +472,10 @@ IF : tif EXP tthen INSTRUCCIONES tend tif puntocoma                     {$$ = ne
                                                                             $$.hijos.push($6)}
 ;
 
-CASE: tcase idt INSTRUCASE telse EXP tend puntocoma {$$ = new Nodo("CASE", @1.first_line, @1.first_column,'"#86bafd"');
-                                                        $$.hijos.push($3)
-                                                        $$.hijos.push($5)}
-|  tcase INSTRUCASE telse EXP tend puntocoma        {$$ = new Nodo("CASE", @1.first_line, @1.first_column,'"#86bafd"');
-                                                        $$.hijos.push($2)
-                                                        $$.hijos.push($4)}
+CASE: tcase EXP INSTRUCASE tend puntocoma {$$ = new Nodo("CASE", @1.first_line, @1.first_column,'"#86bafd"');
+                                                        $$.hijos.push($3)}
+|  tcase INSTRUCASE tend puntocoma        {$$ = new Nodo("CASE", @1.first_line, @1.first_column,'"#86bafd"');
+                                                        $$.hijos.push($2)}
 ;
 INSTRUCASE : INSTRUCASE INTCASE {
                             $$ = $1;
@@ -494,6 +487,8 @@ INSTRUCASE : INSTRUCASE INTCASE {
 INTCASE : twhen EXP tthen EXP {$$ = new Nodo("Comparacion", @1.first_line, @1.first_column,'"#86bafd"');
                                 $$.hijos.push($2)
                                 $$.hijos.push($4)}
+| telse EXP {$$ = new Nodo("Else", @1.first_line, @1.first_column,'"#86bafd"');
+                                $$.hijos.push($2)}
 ;
 
 WHILE : twhile EXP tbegin INSTRUCCIONES tend puntocoma {$$ =new Nodo("WHILE", @1.first_line, @1.first_column,'"#86bafd"');
@@ -515,6 +510,12 @@ FUNCION : tcreate tfunction idt parena PARAMETOS parenc treturns TIPO tbegin INS
                                                                                                             $$.hijos.push($5)
                                                                                                             $$.hijos.push($10)}
 ;
+
+CAST : tcast parena EXP tas TIPO parenc {$$ = new Nodo("CAST", @1.first_line, @1.first_column,'"#86bafd"');
+                                        $$.hijos.push($3)
+                                        $$.hijos.push($5)}
+;
+
 PARAMETOS : PARAMETOS coma PARAMETRO {
                             $$ = $1;
                             $$.hijos.push($3);
@@ -647,6 +648,8 @@ EXP :   EXP suma EXP            {$$ = new Nodo("+", @1.first_line, @1.first_colu
     |   TYPEOF                 { $$ = new Nodo("EXP", @1.first_line, @1.first_column,'"#86bafd"');
                                  $$.hijos.push($1) }
     |   LLAMADAS               { $$ = new Nodo("EXP", @1.first_line, @1.first_column,'"#86bafd"');
+                                $$.hijos.push($1) }
+    |  CAST                   { $$ = new Nodo("EXP", @1.first_line, @1.first_column,'"#86bafd"');
                                 $$.hijos.push($1) }
 ;
 

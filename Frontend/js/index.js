@@ -220,8 +220,10 @@ function analizar(){
 
 
 
-            TreeAst = data.ast;
-            console.log(data.message);
+            var salida = document.getElementById(get_vent2())
+            // Agregar el contenido de entrada al contenido de salida en la siguiente línea
+            salida.value = data.salida + '\n';
+            index("pestanas", get_vent().replace("entrada","pestana"));
 
 
 
@@ -234,6 +236,23 @@ function analizar(){
     
 }
 
+function AbrirArchivo(input){
+    const file = input.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            const contenido = event.target.result;
+            var entrada = document.getElementById(get_vent())
+            // Agregar el contenido de entrada al contenido de salida en la siguiente línea
+            entrada.value = contenido + '\n';
+            index("pestanas", get_vent().replace("entrada","pestana"));
+        };
+
+        reader.readAsText(file);
+    }
+}
 
 
 function AVL(){
